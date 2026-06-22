@@ -15,22 +15,21 @@ Supabase menyediakan database PostgreSQL gratis yang sangat stabil.
 4. Pilih organisasi Anda (biasanya nama akun GitHub Anda).
 5. Isi formulir pembuatan proyek baru:
    * **Project Name**: Isi dengan `clinic-erp-demo`.
-   * **Database Password**: Ketik password yang kuat. **PENTING**: Catat password ini sekarang karena Supabase tidak akan menampilkannya lagi demi alasan keamanan!
+   * **Database Password**: `xkripsi13semester` Ketik password yang kuat. **PENTING**: Catat password ini sekarang karena Supabase tidak akan menampilkannya lagi demi alasan keamanan!
    * **Region**: Pilih **Singapore (ap-southeast-1)** agar koneksi database ke web hosting di Asia berlatensi sangat rendah (cepat).
    * **Pricing**: Pilih **Free** (Paket gratis).
 6. Klik tombol **Create new project** dan tunggu proses alokasi database selesai (~2 sampai 3 menit).
 
 ### Cara Menemukan Parameter Koneksi (Host, User, Port):
 Setelah proyek Supabase aktif (status bar hijau berubah menjadi *Active*):
-1. Lihat menu navigasi di sisi kiri paling bawah, klik ikon **Settings** (ikon roda gigi/gerigi).
-2. Di dalam menu Settings, klik submenu **Database** (terletak di bagian *Project Settings*).
-3. Gulir ke bawah hingga Anda menemukan bagian **Connection parameters**.
-4. Salin data-data berikut untuk dimasukkan ke konfigurasi Render nanti:
+1. Klik tombol **Connect** (berwarna hijau/kontras) yang terletak di bagian kanan atas navbar dashboard proyek Supabase Anda.
+2. Pada panel/modal menu **Connect to project** yang muncul, pilih tab **Direct Connection** (atau pilih tab **URI** untuk melihat connection string lengkap).
+3. Dari parameter koneksi yang ditampilkan, salin nilai-nilai berikut untuk dimasukkan ke konfigurasi Render nanti:
    * **Host**: Salin alamat host Anda (formatnya menyerupai: `aws-0-ap-southeast-1.pooler.supabase.com`).
    * **Database name**: Secara default adalah `postgres`.
    * **Port**: Secara default adalah `5432`.
    * **User**: Salin username database Anda (formatnya menyerupai: `postgres.xxxxxxxxxxxxxxxxxxxx`).
-   * **Password**: Gunakan password yang Anda buat secara manual pada langkah sebelumnya (jika lupa, klik tombol **Reset database password** pada halaman tersebut untuk membuat password baru).
+   * **Password**: Gunakan password yang Anda buat secara manual pada langkah sebelumnya (jika lupa, klik tombol **Reset database password** pada halaman settings database untuk membuat password baru).
 
 ---
 
