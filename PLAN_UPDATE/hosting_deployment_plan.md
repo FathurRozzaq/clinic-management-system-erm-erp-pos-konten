@@ -1,146 +1,161 @@
-# Hosting & Deployment Plan: Render + Supabase (PostgreSQL)
+# Hosting & Deployment Plan: Serv00 (100% Gratis Tanpa Kartu Kredit)
 
-Dokumen ini berisi panduan langkah demi langkah yang sangat detail untuk meng-hosting sistem informasi klinik (**clinic-management-system-erm-erp-pos**) secara online agar dapat diakses oleh publik sebagai demo.
-
----
-
-## 1. Persiapan Database (Supabase)
-
-Supabase menyediakan database PostgreSQL gratis yang sangat stabil.
-
-### Langkah Detail Pembuatan:
-1. Buka website **[Supabase](https://supabase.com/)** di browser Anda.
-2. Klik tombol **Sign in** di kanan atas, lalu pilih **Continue with GitHub** untuk masuk menggunakan akun GitHub Anda.
-3. Di halaman dashboard utama Supabase, klik tombol **New Project** (tombol hijau).
-4. Pilih organisasi Anda (biasanya nama akun GitHub Anda).
-5. Isi formulir pembuatan proyek baru:
-   * **Project Name**: Isi dengan `clinic-erp-demo`.
-   * **Database Password**: `xkripsi13semester` Ketik password yang kuat. **PENTING**: Catat password ini sekarang karena Supabase tidak akan menampilkannya lagi demi alasan keamanan!
-   * **Region**: Pilih **Singapore (ap-southeast-1)** agar koneksi database ke web hosting di Asia berlatensi sangat rendah (cepat).
-   * **Pricing**: Pilih **Free** (Paket gratis).
-6. Klik tombol **Create new project** dan tunggu proses alokasi database selesai (~2 sampai 3 menit).
-
-### Cara Menemukan Parameter Koneksi (Host, User, Port):
-Setelah proyek Supabase aktif (status bar hijau berubah menjadi *Active*):
-1. Klik tombol **Connect** (berwarna hijau/kontras) yang terletak di bagian kanan atas navbar dashboard proyek Supabase Anda.
-2. Pada panel/modal menu **Connect to project** yang muncul, pilih tab **Direct Connection** (atau pilih tab **URI** untuk melihat connection string lengkap).
-3. Dari parameter koneksi yang ditampilkan, salin nilai-nilai berikut untuk dimasukkan ke konfigurasi Render nanti:
-   * **Host**: Salin alamat host Anda (formatnya menyerupai: `aws-0-ap-southeast-1.pooler.supabase.com`).
-   * **Database name**: Secara default adalah `postgres`.
-   * **Port**: Secara default adalah `5432`.
-   * **User**: Salin username database Anda (formatnya menyerupai: `postgres.xxxxxxxxxxxxxxxxxxxx`).
-   * **Password**: Gunakan password yang Anda buat secara manual pada langkah sebelumnya (jika lupa, klik tombol **Reset database password** pada halaman settings database untuk membuat password baru).
+Dokumen ini berisi panduan langkah demi langkah yang sangat detail untuk meng-hosting sistem informasi klinik (**clinic-management-system-erm-erp-pos**) secara online secara gratis menggunakan **Serv00** (layanan hosting gratis dengan fitur SSH, PHP, dan database lengkap).
 
 ---
 
-## 2. Persiapan Kode Aplikasi (GitHub)
+## 1. Pendaftaran Akun Serv00
 
-1. Buka website **[GitHub](https://github.com/)** dan masuk ke akun Anda.
-2. Klik foto profil Anda di kanan atas -> pilih **Your repositories**.
-3. Klik pada repositori proyek klinik Anda: **`clinic-management-system-erm-erp-pos`**.
-4. Salin URL repositori tersebut dari address bar browser Anda (contoh format: `https://github.com/username/clinic-management-system-erm-erp-pos`).
-5. Pastikan seluruh perubahan kode terakhir (terutama perbaikan migrasi dan query PostgreSQL) sudah dipush ke branch `main`.
-
----
-
-## 3. Deployment Aplikasi di Render
-
-Karena Render tidak menyediakan opsi bahasa PHP secara langsung di dashboard, kita menggunakan **Docker** yang merupakan standar industri terbaik untuk menjalankan Laravel di Render. File `Dockerfile` konfigurasi Nginx + PHP 8.2 sudah disediakan di root proyek utama Anda.
-
-### Langkah Detail Deployment:
-1. Buka website **[Render](https://render.com/)** di browser Anda.
-2. Klik tombol **Sign in** di kanan atas, lalu pilih **GitHub** agar akun Render langsung terhubung dengan repositori GitHub Anda.
-3. Di halaman dashboard utama Render, klik tombol biru **New +** di sebelah kanan atas, lalu pilih **Web Service**.
-4. Di bagian **Connect a repository**:
-   * Jika repositori Anda belum muncul di daftar, klik tombol **Configure GitHub App** di bawahnya untuk memberi izin Render membaca repositori Anda.
-   * Setelah repositori `clinic-management-system-erm-erp-pos` muncul, klik tombol **Connect** di sebelahnya.
-5. Pada formulir konfigurasi Web Service, isi parameter berikut:
-   * **Name**: Isi dengan `klinik-kencana-demo` (nama ini akan menentukan subdomain URL web Anda, misalnya: `https://klinik-kencana-demo.onrender.com`).
-   * **Region**: Pilih **Singapore (Southeast Asia)** agar dekat dengan lokasi database Supabase Anda.
-   * **Branch**: Pilih `main`.
-   * **Language**: Pilih **Docker**.
-   * *(Catatan: Kolom Build Command dan Start Command tidak perlu diisi karena otomatis dijalankan berdasarkan konfigurasi di `Dockerfile`)*.
-   * **Instance Type**: Pilih **Free** (di bagian paling bawah).
+1. Buka website **[Serv00 Registration](https://www.serv00.com/webhost/register)**.
+2. Isi formulir pendaftaran:
+   * **First name** & **Last name**: Nama Anda.
+   * **E-mail**: Masukkan email aktif Anda.
+   * **Username**: Username pilihan Anda (ini juga akan menjadi subdomain Anda, misal: `klinik.serv00.net` jika Anda memilih domain bawaan).
+3. Klik **Create Account**.
+4. Buka email masuk dari Serv00 (judul: *New account created*). **PENTING**: Catat data berikut dari email tersebut:
+   * **Web panel address**: Alamat login dashboard Anda (misal: `https://panel.serv00.com/`).
+   * **SSH/FTP server**: Alamat server Anda (misal: `s15.serv00.com`).
+   * **IP address**: Alamat IP server.
+   * **Password**: Password akun Anda (berlaku untuk login panel, SSH, dan FTP).
 
 ---
 
-## 4. Konfigurasi Environment Variables (Render)
+## 2. Membuat Database PostgreSQL di Serv00
 
-Sebelum mengklik tombol deploy, Anda harus memasukkan konfigurasi environment (sama seperti file `.env` lokal Anda).
+Serv00 menyediakan database PostgreSQL gratis yang berjalan 24/7 tanpa sistem tidur.
 
-1. Pada halaman konfigurasi Render yang sama, gulir ke bawah dan klik tab **Advanced** (atau jika sudah terlanjur terdeploy, klik menu **Environment** di sidebar kiri dashboard proyek Render Anda).
-2. Anda dapat memasukkannya satu per satu dengan mengeklik **Add Environment Variable**, atau cara yang **jauh lebih cepat**: klik tombol **Raw Editor** / **Secret File** lalu tempel (*copas*) seluruh baris konfigurasi di bawah ini sekaligus:
-
-```env
-APP_NAME="Klinik Kencana Medika"
-APP_ENV=production
-APP_KEY=base64:/DY7LIZjCGapPw7ZtzJLYhNgx1xXCROKZZPKfZuZDZE=
-APP_DEBUG=false
-APP_URL=https://klinik-kencana-demo.onrender.com
-DB_CONNECTION=pgsql
-DB_HOST=aws-0-ap-southeast-1.pooler.supabase.com
-DB_PORT=5432
-DB_DATABASE=postgres
-DB_USERNAME=postgres.xxxxxxxxxxxxxxxxxxxx
-DB_PASSWORD=xkripsi13semester
-SESSION_DRIVER=database
-CACHE_STORE=database
-LOG_CHANNEL=stderr
-```
-
-> [!IMPORTANT]
-> **Catatan Sebelum Copas:**
-> * Ubah nilai `APP_KEY` dengan isi key dari `.env` lokal Anda jika berbeda.
-> * Ubah `APP_URL` dengan URL Render Anda sendiri.
-> * Sesuaikan `DB_HOST`, `DB_USERNAME`, dan `DB_PASSWORD` dengan data asli dari database Supabase Anda.
-
-3. Setelah semua variabel dimasukkan, klik tombol biru **Create Web Service** (atau **Save Changes** jika Anda mengeditnya lewat tab Environment).
-4. Render akan memulai proses build secara otomatis. Proses ini biasanya memakan waktu 3 sampai 5 menit.
+### Langkah Detail:
+1. Login ke **Web panel** Serv00 Anda (menggunakan URL, username, dan password dari email).
+2. Di sidebar kiri, klik menu **Databases** -> pilih **PostgreSQL**.
+3. Klik tombol **Add database**.
+4. Konfigurasikan database baru:
+   * **Database name**: Isi dengan nama database Anda (misal: `clinicdb`). Nama akhir database akan digabung dengan username Anda (format: `username_clinicdb`).
+   * **Database user**: Pilih **Create new user**.
+   * **Username**: Isi username baru (misal: `clinicuser`). Format akhirnya: `username_clinicuser`.
+   * **Password**: Masukkan password yang kuat untuk database ini.
+5. Klik **Add**.
+6. Simpan informasi koneksi database Anda:
+   * **DB_HOST**: `localhost` (karena database berjalan di server yang sama dengan aplikasi).
+   * **DB_PORT**: `5432`
+   * **DB_DATABASE**: `username_clinicdb`
+   * **DB_USERNAME**: `username_clinicuser`
+   * **DB_PASSWORD**: Password database yang Anda buat tadi.
 
 ---
 
-## 5. Menjalankan Migrasi & Seeder Pertama Kali di Render
+## 3. Konfigurasi Domain & PHP Version
 
-Karena database baru Anda di Supabase masih kosong (belum ada tabel sama sekali), Anda harus membuat tabel dan mengisinya dengan user default agar aplikasi bisa digunakan.
+Secara default, Serv00 membuat satu website otomatis menggunakan nama domain `username.serv00.net`. Kita harus mengonfigurasi PHP agar kompatibel dengan Laravel (minimal PHP 8.1/8.2).
 
-### Cara A: Melalui Shell Terintegrasi Render (Paling Praktis)
-1. Tunggu hingga status Web Service di Render berubah menjadi hijau (**Live**).
-2. Lihat menu navigasi di sebelah kiri dashboard Render Anda, lalu klik menu **Shell**.
-3. Tunggu hingga terminal interaktif termuat di browser Anda.
-4. Jalankan perintah migrasi tabel berikut lalu tekan **Enter**:
+1. Pada Web panel Serv00, klik menu **WWW websites** di sidebar kiri.
+2. Cari nama domain Anda (misal: `username.serv00.net`), lalu klik tombol **Manage** di sebelah kanannya.
+3. Ubah pengaturan berikut:
+   * **PHP version**: Pilih **PHP 8.2** (atau versi lebih baru yang didukung).
+4. Klik **Save**.
+
+---
+
+## 4. Deployment Aplikasi via SSH
+
+Laravel memerlukan akses command line (CLI) untuk mengunduh dependensi (Composer) dan memigrasi database. Serv00 memberikan akses SSH penuh secara gratis.
+
+### Langkah Detail:
+1. Buka Terminal (Linux/macOS) atau CMD/PowerShell (Windows) di komputer lokal Anda.
+2. Masuk ke server Serv00 Anda menggunakan perintah SSH:
+   ```bash
+   ssh username@server_anda.serv00.com
+   ```
+   *(Ganti `username` dengan username Serv00 Anda, dan `server_anda` dengan alamat server dari email, contoh: `ssh fathur@s15.serv00.com`)*.
+3. Masukkan password akun Serv00 Anda jika diminta, lalu tekan **Enter**.
+4. Masuk ke direktori domain Anda:
+   ```bash
+   cd domains/username.serv00.net
+   ```
+5. Hapus folder `public_html` bawaan Serv00 karena kita akan menggantinya dengan folder `public` milik Laravel:
+   ```bash
+   rm -rf public_html
+   ```
+6. Clone repositori kode Laravel Anda dari GitHub ke direktori ini:
+   ```bash
+   git clone https://github.com/FathurRozzaq/clinic-management-system-erm-erp-pos.git temp_src
+   ```
+7. Pindahkan seluruh file dari hasil clone ke folder utama, lalu hapus folder sementara tersebut:
+   ```bash
+   mv temp_src/* ./
+   mv temp_src/.* ./
+   rm -rf temp_src
+   ```
+8. Buat **symbolic link** (jalan pintas) bernama `public_html` yang mengarah ke folder `public` Laravel agar server web membacanya dengan benar:
+   ```bash
+   ln -s public public_html
+   ```
+
+---
+
+## 5. Menginstal Dependensi & Konfigurasi `.env`
+
+Masih di dalam terminal SSH Serv00 pada direktori `domains/username.serv00.net`:
+
+1. Buat file `.env` produksi dengan menyalin dari `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Edit file `.env` menggunakan editor teks terminal `nano`:
+   ```bash
+   nano .env
+   ```
+3. Sesuaikan baris-baris berikut di editor `nano`:
+   ```env
+   APP_NAME="Klinik Kencana Medika"
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://username.serv00.net
+
+   DB_CONNECTION=pgsql
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_DATABASE=username_clinicdb
+   DB_USERNAME=username_clinicuser
+   DB_PASSWORD=password_database_anda
+   ```
+   *(Tekan **Ctrl + O** lalu **Enter** untuk menyimpan, kemudian tekan **Ctrl + X** untuk keluar dari editor nano).*
+4. Buat kunci aplikasi Laravel Anda:
+   ```bash
+   php artisan key:generate
+   ```
+5. Instal dependensi PHP (Composer) tanpa menyertakan library development untuk menghemat ruang dan RAM:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   ```
+6. Jalankan perintah migrasi tabel dan seeding data default:
    ```bash
    php artisan migrate --force
-   ```
-5. Setelah migrasi sukses, jalankan perintah seeding untuk membuat user demo default (misal: admin, kasir, dokter) dengan menekan **Enter**:
-   ```bash
    php artisan db:seed --force
    ```
 
-### Cara B: Otomatisasi Lewat Pre-deploy Command
-Karena kita menggunakan Docker, Render menyediakan opsi **Pre-deploy Command** yang otomatis berjalan di kontainer baru sebelum aplikasi dipublikasikan:
-1. Masuk ke dashboard Render Anda -> pilih Web Service Anda -> klik menu **Settings** di sidebar kiri.
-2. Cari bagian **Pre-deploy Command**, lalu klik **Edit** dan masukkan perintah berikut:
+---
+
+## 6. Kompilasi Aset JS & CSS (Vite)
+
+Karena aplikasi menggunakan Vite untuk mengelola file Livewire/Tailwind, aset JS/CSS harus di-build terlebih dahulu.
+
+### Cara A: Build Langsung di Serv00 (Praktis)
+Jalankan perintah berikut di terminal SSH Serv00 Anda:
+```bash
+npm install
+npm run build
+```
+
+### Cara B: Build Lokal (Jika RAM Server Serv00 Terbatas)
+Jika kompilasi di server gagal karena limitasi memori (*Out of Memory*):
+1. Buka terminal lokal di komputer Anda.
+2. Masuk ke proyek lokal klinik Anda, lalu jalankan:
    ```bash
-   php artisan migrate --force
+   npm run build
    ```
-3. Klik **Save Changes**. Dengan ini, database akan otomatis dimigrasi setiap kali Render melakukan rebuild aplikasi. (Catatan: Untuk seeding pertama kali tetap direkomendasikan melalui **Shell** seperti Cara A).
+3. Folder `public/build` akan terisi file kompilasi terbaru.
+4. Anda bisa mengunggah folder `public/build` lokal tersebut langsung ke folder `domains/username.serv00.net/public/build` di Serv00 menggunakan aplikasi FTP seperti **FileZilla** (menggunakan detail host SSH, username, dan password Serv00 Anda).
 
 ---
 
-## 6. Mencegah Render & Supabase Masuk Mode Tidur (UptimeRobot)
-
-Untuk layanan gratis, Render akan menonaktifkan (*spin down*) aplikasi jika tidak ada aktivitas selama 15 menit, dan Supabase akan menangguhkan (*pause*) database setelah 7 hari tanpa kueri masuk.
-
-Untuk menjaga keduanya tetap aktif 24/7 (tanpa jeda pemuatan lambat saat pertama kali dibuka oleh pengunjung):
-
-### Langkah Detail UptimeRobot:
-1. Buka website **[UptimeRobot](https://uptimerobot.com/)** di browser Anda.
-2. Klik tombol hijau **Register for FREE** di kanan atas dan buat akun baru.
-3. Setelah masuk ke dashboard UptimeRobot, klik tombol hijau **+ Add New Monitor** di sebelah kiri atas.
-4. Isi konfigurasi monitor baru Anda:
-   * **Monitor Type**: Pilih **HTTP(s)**.
-   * **Friendly Name**: Ketik nama bebas, contoh: `Demo Klinik Kencana`.
-   * **URL (or IP)**: Masukkan URL demo aplikasi Render Anda (contoh: `https://klinik-kencana-demo.onrender.com`).
-   * **Monitoring Interval**: Atur ke **5 minutes** (setiap 5 menit sekali).
-5. Klik tombol **Create Monitor** di bagian bawah.
-6. UptimeRobot akan mengirim ping otomatis ke website Anda setiap 5 menit. Kunjungan berkala ini mencegah server Render tertidur dan menjaga database Supabase tetap aktif tanpa pernah di-*pause*.
+Aplikasi klinik Anda kini sudah online sepenuhnya, tidak akan pernah mati atau tidur, dan dapat diakses gratis oleh orang asing melalui link domain bawaan Serv00 Anda (`https://username.serv00.net`)!
