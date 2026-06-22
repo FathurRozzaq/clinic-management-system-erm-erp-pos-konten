@@ -1,161 +1,126 @@
-# Hosting & Deployment Plan: Serv00 (100% Gratis Tanpa Kartu Kredit)
+# Hosting & Deployment Plan: Zeabur (100% Gratis Tanpa Kartu Kredit)
 
-Dokumen ini berisi panduan langkah demi langkah yang sangat detail untuk meng-hosting sistem informasi klinik (**clinic-management-system-erm-erp-pos**) secara online secara gratis menggunakan **Serv00** (layanan hosting gratis dengan fitur SSH, PHP, dan database lengkap).
-
----
-
-## 1. Pendaftaran Akun Serv00
-
-1. Buka website **[Serv00 Registration](https://www.serv00.com/webhost/register)**.
-2. Isi formulir pendaftaran:
-   * **First name** & **Last name**: Nama Anda.
-   * **E-mail**: Masukkan email aktif Anda.
-   * **Username**: Username pilihan Anda (ini juga akan menjadi subdomain Anda, misal: `klinik.serv00.net` jika Anda memilih domain bawaan).
-3. Klik **Create Account**.
-4. Buka email masuk dari Serv00 (judul: *New account created*). **PENTING**: Catat data berikut dari email tersebut:
-   * **Web panel address**: Alamat login dashboard Anda (misal: `https://panel.serv00.com/`).
-   * **SSH/FTP server**: Alamat server Anda (misal: `s15.serv00.com`).
-   * **IP address**: Alamat IP server.
-   * **Password**: Password akun Anda (berlaku untuk login panel, SSH, dan FTP).
+Dokumen ini berisi panduan langkah demi langkah yang sangat detail untuk meng-hosting sistem informasi klinik (**clinic-management-system-erm-erp-pos**) secara online secara gratis menggunakan **Zeabur** (platform deployment cloud modern yang mendukung Git-based Docker, gratis, dan tidak memerlukan verifikasi kartu kredit).
 
 ---
 
-## 2. Membuat Database PostgreSQL di Serv00
+## 1. Persiapan Database (Supabase)
 
-Serv00 menyediakan database PostgreSQL gratis yang berjalan 24/7 tanpa sistem tidur.
+Supabase menyediakan database PostgreSQL gratis yang sangat stabil dan pendaftarannya tidak memerlukan kartu kredit.
 
-### Langkah Detail:
-1. Login ke **Web panel** Serv00 Anda (menggunakan URL, username, dan password dari email).
-2. Di sidebar kiri, klik menu **Databases** -> pilih **PostgreSQL**.
-3. Klik tombol **Add database**.
-4. Konfigurasikan database baru:
-   * **Database name**: Isi dengan nama database Anda (misal: `clinicdb`). Nama akhir database akan digabung dengan username Anda (format: `username_clinicdb`).
-   * **Database user**: Pilih **Create new user**.
-   * **Username**: Isi username baru (misal: `clinicuser`). Format akhirnya: `username_clinicuser`.
-   * **Password**: Masukkan password yang kuat untuk database ini.
-5. Klik **Add**.
-6. Simpan informasi koneksi database Anda:
-   * **DB_HOST**: `localhost` (karena database berjalan di server yang sama dengan aplikasi).
-   * **DB_PORT**: `5432`
-   * **DB_DATABASE**: `username_clinicdb`
-   * **DB_USERNAME**: `username_clinicuser`
-   * **DB_PASSWORD**: Password database yang Anda buat tadi.
+### Langkah Detail Pembuatan:
+1. Buka website **[Supabase](https://supabase.com/)** di browser Anda.
+2. Klik tombol **Sign in** di kanan atas, lalu pilih **Continue with GitHub** untuk masuk menggunakan akun GitHub Anda.
+3. Di halaman dashboard utama Supabase, klik tombol **New Project** (tombol hijau).
+4. Pilih organisasi Anda (biasanya nama akun GitHub Anda).
+5. Isi formulir pembuatan proyek baru:
+   * **Project Name**: Isi dengan `clinic-erp-demo`.
+   * **Database Password**: `xkripsi13semester` (Catat password ini baik-baik).
+   * **Region**: Pilih **Singapore (ap-southeast-1)** agar koneksi database ke web hosting di Asia berlatensi sangat rendah (cepat).
+   * **Pricing**: Pilih **Free** (Paket gratis).
+6. Klik tombol **Create new project** dan tunggu proses alokasi database selesai (~2 sampai 3 menit).
 
----
-
-## 3. Konfigurasi Domain & PHP Version
-
-Secara default, Serv00 membuat satu website otomatis menggunakan nama domain `username.serv00.net`. Kita harus mengonfigurasi PHP agar kompatibel dengan Laravel (minimal PHP 8.1/8.2).
-
-1. Pada Web panel Serv00, klik menu **WWW websites** di sidebar kiri.
-2. Cari nama domain Anda (misal: `username.serv00.net`), lalu klik tombol **Manage** di sebelah kanannya.
-3. Ubah pengaturan berikut:
-   * **PHP version**: Pilih **PHP 8.2** (atau versi lebih baru yang didukung).
-4. Klik **Save**.
+### Cara Menemukan Parameter Koneksi:
+Setelah proyek Supabase aktif:
+1. Klik tombol **Connect** (berwarna hijau/kontras) yang terletak di bagian kanan atas navbar dashboard proyek Supabase Anda.
+2. Pada panel/modal menu **Connect to project** yang muncul, pilih tab **Direct Connection**.
+3. Salin parameter koneksi berikut untuk dimasukkan ke konfigurasi Zeabur nanti:
+   * **Host**: Alamat host Anda (formatnya menyerupai: `aws-0-ap-southeast-1.pooler.supabase.com`).
+   * **Database name**: Secara default adalah `postgres`.
+   * **Port**: Secara default adalah `5432`.
+   * **User**: Username database Anda (formatnya menyerupai: `postgres.xxxxxxxxxxxxxxxxxxxx`).
 
 ---
 
-## 4. Deployment Aplikasi via SSH
+## 2. Deployment Aplikasi di Zeabur (Git-based Docker)
 
-Laravel memerlukan akses command line (CLI) untuk mengunduh dependensi (Composer) dan memigrasi database. Serv00 memberikan akses SSH penuh secara gratis.
+Zeabur akan mendeteksi file `Dockerfile` yang telah kita siapkan di root proyek secara otomatis dan mem-build-nya secara gratis.
 
-### Langkah Detail:
-1. Buka Terminal (Linux/macOS) atau CMD/PowerShell (Windows) di komputer lokal Anda.
-2. Masuk ke server Serv00 Anda menggunakan perintah SSH:
-   ```bash
-   ssh username@server_anda.serv00.com
-   ```
-   *(Ganti `username` dengan username Serv00 Anda, dan `server_anda` dengan alamat server dari email, contoh: `ssh fathur@s15.serv00.com`)*.
-3. Masukkan password akun Serv00 Anda jika diminta, lalu tekan **Enter**.
-4. Masuk ke direktori domain Anda:
-   ```bash
-   cd domains/username.serv00.net
-   ```
-5. Hapus folder `public_html` bawaan Serv00 karena kita akan menggantinya dengan folder `public` milik Laravel:
-   ```bash
-   rm -rf public_html
-   ```
-6. Clone repositori kode Laravel Anda dari GitHub ke direktori ini:
-   ```bash
-   git clone https://github.com/FathurRozzaq/clinic-management-system-erm-erp-pos.git temp_src
-   ```
-7. Pindahkan seluruh file dari hasil clone ke folder utama, lalu hapus folder sementara tersebut:
-   ```bash
-   mv temp_src/* ./
-   mv temp_src/.* ./
-   rm -rf temp_src
-   ```
-8. Buat **symbolic link** (jalan pintas) bernama `public_html` yang mengarah ke folder `public` Laravel agar server web membacanya dengan benar:
-   ```bash
-   ln -s public public_html
-   ```
+### Langkah Detail Deployment:
+1. Buka website **[Zeabur](https://zeabur.com/)** di browser Anda.
+2. Klik tombol **Sign in / Login** di kanan atas, lalu masuk menggunakan akun **GitHub** Anda (proses ini instan dan tidak memerlukan input kartu kredit).
+3. Di halaman dashboard utama Zeabur, klik tombol **Create Project** (atau **New Project**).
+4. Pilih lokasi server terdekat: **Singapore (AWS / GCP)** untuk mendapatkan kecepatan maksimal di Indonesia.
+5. Setelah ruang proyek berhasil dibuat, klik tombol **Deploy Service** -> pilih **GitHub**.
+6. Anda mungkin perlu memberikan otorisasi akses ke repositori Anda. Klik **Configure** dan berikan izin akses ke repositori **`clinic-management-system-erm-erp-pos`**.
+7. Setelah repositori Anda muncul di daftar, klik repositori tersebut untuk memulai deployment.
+8. Zeabur akan membaca file `Dockerfile` di root proyek Anda dan memulai proses build secara otomatis.
 
 ---
 
-## 5. Menginstal Dependensi & Konfigurasi `.env`
+## 3. Konfigurasi Environment Variables (Zeabur)
 
-Masih di dalam terminal SSH Serv00 pada direktori `domains/username.serv00.net`:
+Sebelum proses build selesai, Anda perlu memasukkan konfigurasi environment (sama seperti file `.env` lokal Anda).
 
-1. Buat file `.env` produksi dengan menyalin dari `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-2. Edit file `.env` menggunakan editor teks terminal `nano`:
-   ```bash
-   nano .env
-   ```
-3. Sesuaikan baris-baris berikut di editor `nano`:
-   ```env
-   APP_NAME="Klinik Kencana Medika"
-   APP_ENV=production
-   APP_DEBUG=false
-   APP_URL=https://username.serv00.net
+1. Klik pada service yang sedang di-deploy di dashboard Zeabur Anda.
+2. Masuk ke tab **Variables** di bagian atas menu service.
+3. Klik tombol **Bulk Edit** (atau ikon teks) agar Anda bisa menempelkan (*copas*) seluruh baris konfigurasi di bawah ini sekaligus:
 
-   DB_CONNECTION=pgsql
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_DATABASE=username_clinicdb
-   DB_USERNAME=username_clinicuser
-   DB_PASSWORD=password_database_anda
-   ```
-   *(Tekan **Ctrl + O** lalu **Enter** untuk menyimpan, kemudian tekan **Ctrl + X** untuk keluar dari editor nano).*
-4. Buat kunci aplikasi Laravel Anda:
-   ```bash
-   php artisan key:generate
-   ```
-5. Instal dependensi PHP (Composer) tanpa menyertakan library development untuk menghemat ruang dan RAM:
-   ```bash
-   composer install --no-dev --optimize-autoloader
-   ```
-6. Jalankan perintah migrasi tabel dan seeding data default:
+```env
+APP_NAME="Klinik Kencana Medika"
+APP_ENV=production
+APP_KEY=base64:/DY7LIZjCGapPw7ZtzJLYhNgx1xXCROKZZPKfZuZDZE=
+APP_DEBUG=false
+APP_URL=https://klinik-kencana-demo.zeabur.app
+DB_CONNECTION=pgsql
+DB_HOST=aws-0-ap-southeast-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=postgres.xxxxxxxxxxxxxxxxxxxx
+DB_PASSWORD=xkripsi13semester
+SESSION_DRIVER=database
+CACHE_STORE=database
+LOG_CHANNEL=stderr
+```
+
+> [!IMPORTANT]
+> **Catatan Sebelum Menyimpan:**
+> * Sesuaikan `APP_KEY` dengan isi dari file `.env` lokal Anda.
+> * Sesuaikan `DB_HOST` dan `DB_USERNAME` dengan parameter koneksi dari Supabase Anda.
+> * Klik **Save** setelah selesai. Zeabur akan otomatis melakukan *re-deploy* dengan konfigurasi baru.
+
+---
+
+## 4. Konfigurasi Domain Publik (Zeabur Domain)
+
+Agar aplikasi dapat diakses oleh publik, Anda harus membuat subdomain gratis dari Zeabur.
+
+1. Di dashboard service proyek Zeabur Anda, klik tab **Networking**.
+2. Di bagian **Public Endpoints**, klik tombol **Generate Domain** (atau **Custom Domain** jika Anda punya domain sendiri).
+3. Isi dengan nama subdomain yang Anda inginkan, misalnya `klinik-kencana-demo` (hasil akhirnya akan menjadi `klinik-kencana-demo.zeabur.app`).
+4. Klik **Confirm**. Domain Anda sekarang aktif dan langsung memiliki SSL/HTTPS gratis.
+
+---
+
+## 5. Menjalankan Migrasi & Seeder Pertama Kali di Zeabur
+
+Karena database Supabase masih kosong, kita harus memigrasi tabel dan melakukan seeding default.
+
+1. Di dashboard service proyek Zeabur Anda, klik tab **Console** (atau **Terminal**).
+2. Klik tombol **Connect** / **Open Terminal** untuk masuk ke terminal interaktif kontainer Docker aplikasi Anda.
+3. Jalankan perintah migrasi database berikut:
    ```bash
    php artisan migrate --force
+   ```
+4. Setelah migrasi sukses, jalankan perintah seeding untuk membuat user demo bawaan:
+   ```bash
    php artisan db:seed --force
    ```
 
 ---
 
-## 6. Kompilasi Aset JS & CSS (Vite)
+## 6. Uptime Monitor (UptimeRobot)
 
-Karena aplikasi menggunakan Vite untuk mengelola file Livewire/Tailwind, aset JS/CSS harus di-build terlebih dahulu.
+Untuk paket gratis Zeabur, aplikasi akan masuk ke mode tidur (*auto-sleep*) jika tidak ada pengunjung dalam waktu tertentu demi menghemat sumber daya. 
 
-### Cara A: Build Langsung di Serv00 (Praktis)
-Jalankan perintah berikut di terminal SSH Serv00 Anda:
-```bash
-npm install
-npm run build
-```
+Agar aplikasi web Anda selalu aktif/hangat (tidak ada delay loading awal) dan Supabase tidak di-pause otomatis oleh sistem:
 
-### Cara B: Build Lokal (Jika RAM Server Serv00 Terbatas)
-Jika kompilasi di server gagal karena limitasi memori (*Out of Memory*):
-1. Buka terminal lokal di komputer Anda.
-2. Masuk ke proyek lokal klinik Anda, lalu jalankan:
-   ```bash
-   npm run build
-   ```
-3. Folder `public/build` akan terisi file kompilasi terbaru.
-4. Anda bisa mengunggah folder `public/build` lokal tersebut langsung ke folder `domains/username.serv00.net/public/build` di Serv00 menggunakan aplikasi FTP seperti **FileZilla** (menggunakan detail host SSH, username, dan password Serv00 Anda).
-
----
-
-Aplikasi klinik Anda kini sudah online sepenuhnya, tidak akan pernah mati atau tidur, dan dapat diakses gratis oleh orang asing melalui link domain bawaan Serv00 Anda (`https://username.serv00.net`)!
+1. Buka website **[UptimeRobot](https://uptimerobot.com/)** dan buat akun gratis.
+2. Klik **+ Add New Monitor**.
+3. Konfigurasikan monitor baru sebagai berikut:
+   * **Monitor Type**: `HTTP(s)`
+   * **Friendly Name**: `Demo Klinik Zeabur`
+   * **URL (or IP)**: Masukkan URL domain Zeabur Anda (misalnya: `https://klinik-kencana-demo.zeabur.app`)
+   * **Monitoring Interval**: Atur ke **5 minutes** (setiap 5 menit).
+4. Klik **Create Monitor**.
+5. UptimeRobot akan mem-ping website Anda setiap 5 menit untuk memastikan server Zeabur tetap aktif terus-menerus.
