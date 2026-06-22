@@ -45,7 +45,7 @@ Setelah proyek Supabase aktif (status bar hijau berubah menjadi *Active*):
 
 ## 3. Deployment Aplikasi di Render
 
-Render menyediakan layanan hosting web gratis yang sangat cocok untuk aplikasi PHP/Laravel.
+Karena Render tidak menyediakan opsi bahasa PHP secara langsung di dashboard, kita menggunakan **Docker** yang merupakan standar industri terbaik untuk menjalankan Laravel di Render. File `Dockerfile` konfigurasi Nginx + PHP 8.2 sudah disediakan di root proyek utama Anda.
 
 ### Langkah Detail Deployment:
 1. Buka website **[Render](https://render.com/)** di browser Anda.
@@ -58,15 +58,8 @@ Render menyediakan layanan hosting web gratis yang sangat cocok untuk aplikasi P
    * **Name**: Isi dengan `klinik-kencana-demo` (nama ini akan menentukan subdomain URL web Anda, misalnya: `https://klinik-kencana-demo.onrender.com`).
    * **Region**: Pilih **Singapore (Southeast Asia)** agar dekat dengan lokasi database Supabase Anda.
    * **Branch**: Pilih `main`.
-   * **Language**: Pilih `PHP`.
-   * **Build Command**: 
-     ```bash
-     composer install --no-dev --optimize-autoloader && npm install && npm run build
-     ```
-   * **Start Command**: 
-     ```bash
-     vendor/bin/heroku-php-nginx public/
-     ```
+   * **Language**: Pilih **Docker**.
+   * *(Catatan: Kolom Build Command dan Start Command tidak perlu diisi karena otomatis dijalankan berdasarkan konfigurasi di `Dockerfile`)*.
    * **Instance Type**: Pilih **Free** (di bagian paling bawah).
 
 ---
@@ -117,14 +110,14 @@ Karena database baru Anda di Supabase masih kosong (belum ada tabel sama sekali)
    php artisan db:seed --force
    ```
 
-### Cara B: Otomatisasi Lewat Build Command
-Jika Anda ingin database otomatis dimigrasi dan diseed setiap kali Anda melakukan update kode di masa depan:
+### Cara B: Otomatisasi Lewat Pre-deploy Command
+Karena kita menggunakan Docker, Render menyediakan opsi **Pre-deploy Command** yang otomatis berjalan di kontainer baru sebelum aplikasi dipublikasikan:
 1. Masuk ke dashboard Render Anda -> pilih Web Service Anda -> klik menu **Settings** di sidebar kiri.
-2. Cari bagian **Build Command**, lalu klik **Edit** dan ubah baris perintahnya menjadi:
+2. Cari bagian **Pre-deploy Command**, lalu klik **Edit** dan masukkan perintah berikut:
    ```bash
-   composer install --no-dev --optimize-autoloader && npm install && npm run build && php artisan migrate --force && php artisan db:seed --force
+   php artisan migrate --force
    ```
-3. Klik **Save Changes**.
+3. Klik **Save Changes**. Dengan ini, database akan otomatis dimigrasi setiap kali Render melakukan rebuild aplikasi. (Catatan: Untuk seeding pertama kali tetap direkomendasikan melalui **Shell** seperti Cara A).
 
 ---
 
