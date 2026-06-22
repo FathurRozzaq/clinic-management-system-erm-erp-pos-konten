@@ -69,24 +69,30 @@ Karena Render tidak menyediakan opsi bahasa PHP secara langsung di dashboard, ki
 Sebelum mengklik tombol deploy, Anda harus memasukkan konfigurasi environment (sama seperti file `.env` lokal Anda).
 
 1. Pada halaman konfigurasi Render yang sama, gulir ke bawah dan klik tab **Advanced** (atau jika sudah terlanjur terdeploy, klik menu **Environment** di sidebar kiri dashboard proyek Render Anda).
-2. Klik tombol **Add Environment Variable** satu per satu untuk memasukkan key dan value berikut:
+2. Anda dapat memasukkannya satu per satu dengan mengeklik **Add Environment Variable**, atau cara yang **jauh lebih cepat**: klik tombol **Raw Editor** / **Secret File** lalu tempel (*copas*) seluruh baris konfigurasi di bawah ini sekaligus:
 
-| Key (Nama Variabel) | Value (Nilai) | Cara Menemukannya |
-| :--- | :--- | :--- |
-| `APP_NAME` | `Klinik Kencana Medika` | Bebas diisi nama klinik Anda. |
-| `APP_ENV` | `production` | Wajib diisi `production`. |
-| `APP_KEY` | `base64:/DY7LIZjCGapPw7ZtzJLYhNgx1xXCROKZZPKfZuZDZE=` | Salin persis dari file `.env` lokal Anda di baris ke-3. |
-| `APP_DEBUG` | `false` | Wajib `false` di mode produksi demi keamanan. |
-| `APP_URL` | `https://klinik-kencana-demo.onrender.com` | Gunakan URL Render yang Anda buat pada langkah sebelumnya. |
-| `DB_CONNECTION` | `pgsql` | Wajib `pgsql` karena kita memakai PostgreSQL Supabase. |
-| `DB_HOST` | *(Host Supabase Anda)* | Dapatkan dari menu **Settings -> Database -> Connection parameters** di Supabase. |
-| `DB_PORT` | `5432` | Port standar PostgreSQL. |
-| `DB_DATABASE` | `postgres` | Nama database default di Supabase. |
-| `DB_USERNAME` | *(Username Supabase)* | Dapatkan dari parameter **User** di settings Supabase (format: `postgres.xxxx`). |
-| `DB_PASSWORD` | *(Password Supabase)* | Password yang Anda buat saat setup proyek Supabase. |
-| `SESSION_DRIVER` | `database` | **Sangat Penting**: Server gratis Render bersifat sementara (*ephemeral*). Menggunakan driver database menjamin user tidak ter-logout secara mendadak saat server di-restart otomatis oleh Render. |
-| `CACHE_STORE` | `database` | Wajib database agar cache tersimpan permanen. |
-| `LOG_CHANNEL` | `stderr` | Menuliskan log error langsung ke panel log Render agar mudah didebug. |
+```env
+APP_NAME="Klinik Kencana Medika"
+APP_ENV=production
+APP_KEY=base64:/DY7LIZjCGapPw7ZtzJLYhNgx1xXCROKZZPKfZuZDZE=
+APP_DEBUG=false
+APP_URL=https://klinik-kencana-demo.onrender.com
+DB_CONNECTION=pgsql
+DB_HOST=aws-0-ap-southeast-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=postgres.xxxxxxxxxxxxxxxxxxxx
+DB_PASSWORD=xkripsi13semester
+SESSION_DRIVER=database
+CACHE_STORE=database
+LOG_CHANNEL=stderr
+```
+
+> [!IMPORTANT]
+> **Catatan Sebelum Copas:**
+> * Ubah nilai `APP_KEY` dengan isi key dari `.env` lokal Anda jika berbeda.
+> * Ubah `APP_URL` dengan URL Render Anda sendiri.
+> * Sesuaikan `DB_HOST`, `DB_USERNAME`, dan `DB_PASSWORD` dengan data asli dari database Supabase Anda.
 
 3. Setelah semua variabel dimasukkan, klik tombol biru **Create Web Service** (atau **Save Changes** jika Anda mengeditnya lewat tab Environment).
 4. Render akan memulai proses build secara otomatis. Proses ini biasanya memakan waktu 3 sampai 5 menit.
