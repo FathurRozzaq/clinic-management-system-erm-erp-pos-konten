@@ -28,8 +28,11 @@
 * **Visual:**
   * Pembuka video memperlihatkan cuplikan cepat layar Dashboard Admin yang dipenuhi grafik keuangan interaktif (Chart.js) dan daftar pasien.
   * Transisi cepat memperlihatkan printer kasir mencetak nota fisik atau etiket obat.
+  * **[Insert Ilustrasi 1: tugas_akhir_origin.png]** ketika voiceover menyebutkan penelitian tugas akhir.
+  * **[Insert Ilustrasi 2: klinik_expansion.png]** ketika voiceover menceritakan rencana ekspansi dari praktik dokter menjadi klinik.
+  * **[Insert Ilustrasi 3: implementasi_nyata.png]** ketika voiceover menjelaskan bahwa sistem telah resmi diimplementasikan.
 * **Audio (Voiceover):**
-  * *"Project yang kamu lihat di layar ini awalnya saya kembangkan untuk penelitian tugas akhir kuliah saya. Tapi menariknya, sekarang sistem manajemen klinik terintegrasi ini sudah resmi diimplementasikan langsung untuk operasional klien nyata. Jadi di video kali ini, saya mau share gimana alur kerja dan modul-modul penting yang ada di sistem ini."*
+  * *"Project yang kamu lihat di layar ini awalnya saya kembangkan untuk penelitian tugas akhir kuliah saya. Saat itu, atasan di tempat saya bekerja memiliki keinginan untuk mengekspansi tempat praktik dokternya menjadi sebuah klinik. Beliau meminta dibuatkan sistem untuk menunjang operasional klinik tersebut, yang sekaligus bisa dipakai di praktik dokternya saat ini. Hasilnya, sekarang sistem manajemen klinik terintegrasi ini sudah resmi diimplementasikan selama operasional. Jadi di video kali ini, saya mau share gimana alur kerja dan modul-modul penting yang ada di sistem ini."*
 * **Catatan Teknis:**
   * Musik latar (*Background Music*): Musik santai, lo-fi beats, atau musik bernada tekno-minimalis.
   * Tampilkan teks besar di layar: **Tugas Akhir Berujung Klien Nyata**.
@@ -39,8 +42,10 @@
 ### Bagian 2: Tantangan & Ide (00:25 - 00:50)
 * **Visual:**
   * Presenter (jika merekam wajah) berbicara ke kamera, atau visualisasi diagram alur klinik konvensional yang berantakan (rekam medis kertas bertumpuk, kertas resep hilang).
+  * **[Insert Slide: Peta Integrasi & Arsitektur Sistem]** saat menyebutkan: *"Oleh karena itu, klien meminta saya untuk membangun sistem terpadu..."*
+  * **[Insert Slide: Komponen Sistem & Aktor Terlibat]** saat menjelaskan penyatuan ERM, ERP, dan POS kasir dalam satu aplikasi dengan database tersinkronisasi.
 * **Audio (Voiceover):**
-  * *"Kenapa sistem ini penting? Karena kalau kamu perhatiin, operasional klinik itu sering kali ribet karena aplikasinya terpisah-pisah. Aplikasi rekam medis beda, logistik beda, kasir beda, bahkan sampai pembukuan keuangannya pun beda. Karena databasenya terpisah dan tidak sinkron, akhirnya klinik butuh banyak karyawan cuma buat nge-run masing-masing aplikasi tersebut secara manual. Makanya, saya yang saat itu terlibat dalam penyusunan sistem operasional, punya inisiatif buat menyatukan ERM, ERP, dan POS kasir langsung dalam satu aplikasi web terpadu dengan database yang tersinkronisasi."*
+  * *"Kenapa sistem ini penting? Karena kalau kamu perhatiin, operasional klinik itu sering kali ribet karena aplikasinya terpisah-pisah. Aplikasi rekam medis beda, logistik beda, kasir beda, bahkan sampai pembukuan keuangannya pun beda. Biasanya, klinik butuh banyak karyawan cuma buat nge-run masing-masing aplikasi tersebut secara manual. Nah, proyek ini bermula saat klien saya menghadapi kendala nyata: beliau hanya memiliki satu orang staf untuk mengurus seluruh administrasi operasional klinik. Dan klinik juga tidak berencana menambah tenaga kerja tambahan untuk posisi resepsionis, customer service, manajemen stok obat/BHP, pembuatan laporan harian, hingga perhitungan komisi dan gaji dokter/perawat. Oleh karena itu, klien meminta saya untuk membangun sistem terpadu yang menyatukan ERM, ERP, dan POS kasir langsung dalam satu aplikasi web dengan database yang tersinkronisasi."*
 * **Catatan Teknis:**
   * Gunakan transisi cepat bergaya *glitch* atau *slide* saat menyebutkan masalah.
 
@@ -48,13 +53,14 @@
 
 ### Bagian 3: Langkah 1: Sistem Medis / ERM (00:50 - 01:25)
 * **Visual:**
+  * **Slide Disclaimer:** Menampilkan slide *"Disclaimer Keamanan & Privasi Data"*.
   * **Chapter Card (1.5 detik):** Slide hitam gelap minimalis dengan teks Serif elegan *"BAB 01: SISTEM MEDIS REAL-TIME (ERM)"* beranimasi zoom-in lambat. Diiringi bunyi dentingan piano tunggal (*single piano note echo*).
   * Transisi potong cepat ke rekaman layar modul pendaftaran pasien baru.
   * Menunjukkan layar registrasi pasien baru di modul pendaftaran.
   * Pindah layar ke layar Dokter secara real-time. Tunjukkan bagaimana antrean bertambah tanpa perlu reload halaman.
   * Tampilkan proses pengetikan di form SOAP (Subjective, Objective, Assessment, Plan) dan penulisan resep obat.
 * **Audio (Voiceover):**
-  * *"Langkah pertama, saya bangun modul Electronic Medical Record atau ERM. Di sini, begitu staf pendaftaran memasukkan data pasien baru, daftar antreannya bakal langsung ter-update secara real-time di layar perawat maupun dokter tanpa perlu reload halaman browser. Dokter juga bisa dengan mudah mencatat rekam medis dengan format standar SOAP dan menginput resep obat langsung di halaman yang sama."*
+  * *"Tapi sebelum kita masuk ke demo fiturnya, saya mau kasih disclaimer singkat dulu ya. Demi menjaga kerahasiaan rekam medis pasien, keamanan operasional klien, serta mematuhi amanat Permenkes Nomor 24 Tahun 2022 tentang Rekam Medis, seluruh identitas instansi, data keuangan, data stok, serta data pasien dalam video ini sudah saya ganti sepenuhnya dengan data fiktif. Oke, langsung saja kita masuk ke modul pertama, yaitu Electronic Medical Record atau ERM. Di sini, begitu staf pendaftaran memasukkan data pasien baru, daftar antreannya bakal langsung ter-update secara real-time di layar perawat maupun dokter tanpa perlu reload halaman browser. Dokter juga bisa dengan mudah mencatat rekam medis dengan format standar SOAP dan menginput resep obat langsung di halaman yang sama."*
 * **Catatan Teknis:**
   * Lakukan *zoom-in* pada baris pengisian SOAP untuk menekankan kejelasan fiturnya.
   * Teks di layar: **Step 1: Real-Time ERM & SOAP**.
@@ -67,7 +73,7 @@
   * Transisi potong cepat ke rekaman layar modul Farmasi. Memperlihatkan antrean resep masuk.
   * Mengarahkan kursor ke menu Kartu Stok obat yang berkurang otomatis dan visualisasi peringatan obat kedaluwarsa dengan warna merah/kuning.
 * **Audio (Voiceover):**
-  * *"Langkah kedua adalah menghubungkan resep dokter ke modul logistik. Begitu dokter selesai nginput resep, bagian penyiapan obat akan langsung menerima notifikasi di meja racik secara instan. Hebatnya lagi, sistem logistik ini bakal otomatis memotong Kartu Stok obat dan melacak bahan medis habis pakai yang terpakai. Saya juga nambahin alert otomatis untuk ngedeteksi obat yang mendekati masa expired biar aman."*
+  * *"Langkah kedua adalah menghubungkan resep dokter ke modul logistik. Begitu dokter selesai nginput resep, bagian penyiapan obat akan langsung menerima notifikasi di halaman meja racik secara instan. Sistem logistik ini bakal otomatis memotong Stok obat dan melacak bahan medis habis pakai yang terpakai. Saya juga nambahin warning warna merah untuk ngedeteksi obat yang mendekati masa expired agar stok obat bisa dipantau dengan efektif."*
 * **Catatan Teknis:**
   * Efek suara notifikasi bip yang halus saat resep obat masuk ke bagian penyiapan obat.
   * Teks di layar: **Step 2: Smart Inventory & Expired Date Alert**.
@@ -80,16 +86,16 @@
   * Transisi potong cepat ke rekaman layar modul Kasir. Menampilkan daftar tagihan pasien yang sudah terisi otomatis dengan biaya jasa dokter, tindakan, obat, dan BHP.
   * Mengklik tombol bayar dan menampilkan struk cetakan nota yang rapi.
 * **Audio (Voiceover):**
-  * *"Langkah ketiga, kita buat kasirnya. Untuk meminimalkan kesalahan hitung, modul POS kasir di aplikasi ini otomatis menggabungkan seluruh biaya tindakan dokter, obat dari bagian penyiapan, sampai bahan habis pakai menjadi satu tagihan utuh. Kasir tinggal klik satu kali saja untuk mencetak nota pembayaran sekaligus label etiket aturan pakai obatnya secara praktis."*
+  * *"Langkah ketiga, kita buat kasirnya. Untuk meminimalkan kesalahan hitung, modul POS kasir di aplikasi ini otomatis menggabungkan seluruh biaya tindakan dokter, obat dari bagian penyiapan, sampai bahan habis pakai menjadi satu tagihan utuh. Kasir bisa menyesuaikan jumlah tagihan, menambahkan diskon, hingga mencetak nota pembayaran dengan cepat."*
 * **Catatan Teknis:**
   * Gunakan efek suara ketikan keyboard kasir.
   * Teks di layar: **Step 3: Integrated Cashier POS & Label Printing**.
 
 ---
 
-### Bagian 6: Langkah 4: Otak Keuangan / ERP (02:30 - 03:00)
+### Bagian 6: Langkah 4: Keuangan / ERP (02:30 - 03:00)
 * **Visual:**
-  * **Chapter Card (1.5 detik):** Slide hitam gelap minimalis dengan teks Serif elegan *"BAB 04: OTAK KEUANGAN & ERP"* beranimasi zoom-in lambat. Diiringi bunyi dentingan piano tunggal (*single piano note echo*).
+  * **Chapter Card (1.5 detik):** Slide hitam gelap minimalis dengan teks Serif elegan *"BAB 04: KEUANGAN & ERP"* beranimasi zoom-in lambat. Diiringi bunyi dentingan piano tunggal (*single piano note echo*).
   * Transisi potong cepat ke rekaman layar modul Keuangan. Menampilkan halaman Laporan Keuangan Laba Rugi dengan visual grafik interaktif (Chart.js) yang berubah-ubah sesuai tanggal.
   * Beralih ke halaman Payroll Staf dan halaman inventarisasi kondisi kelayakan Aset.
 * **Audio (Voiceover):**
@@ -115,12 +121,12 @@
 ### Bagian 8: Kesimpulan & Call to Action (03:30 - 03:50)
 * **Visual:**
   * Layar dashboard utama dengan teks ucapan terima kasih dan kontak email atau akun media sosial.
-  * Teks atau link untuk request demo privat yang muncul secara estetik.
+  * Teks link demo interaktif Hugging Face yang muncul secara estetik.
 * **Audio (Voiceover):**
-  * *"Pembangunan project ini telah membuktikan kalau integrasi sistem yang matang bisa memangkas waktu kerja, mencegah kebocoran stok, dan membuat pencatatan keuangan jadi jauh lebih rapi. Kalau kamu pemilik klinik, dokter yang mau buka praktik sendiri, pengelola rumah sakit, atau teman-teman yang tertarik untuk belajar atau berdiskusi soal sistem ERM dan ERP kesehatan seperti ini, langsung saja hubungi saya lewat kontak yang ada di deskripsi di bawah. Terima kasih!"*
+  * *"Pembangunan project ini telah membuktikan kalau integrasi sistem yang matang bisa memangkas waktu kerja, mencegah kebocoran stok, dan membuat pencatatan keuangan jadi jauh lebih rapi. Kalau kamu pemilik klinik, dokter yang mau buka praktik sendiri, pengelola rumah sakit, atau teman-teman yang tertarik untuk mencoba langsung sistem ini secara interaktif, silakan akses link demo Hugging Face yang ada di layar dan di deskripsi di bawah. Jika ingin berdiskusi lebih lanjut, langsung saja hubungi saya lewat kontak yang tersedia. Terima kasih!"*
 * **Catatan Teknis:**
   * Musik latar perlahan memudar (*fade out*).
-  * Teks di layar: **Private Demo & Inquiry - Contact in Description**.
+  * Teks di layar: **Live Demo: huggingface.co/spaces/FathurRozzaq/clinic-management-system-demo**
 
 ---
 

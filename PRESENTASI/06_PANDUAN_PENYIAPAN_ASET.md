@@ -32,8 +32,15 @@ Gunakan situs berikut untuk mencari gambar pendukung (B-roll) yang menggambarkan
 *   *Untuk Bagian Farmasi/Kasir:* `"pharmacy medicine bottles shelf"`, `"cashier print receipt"`, `"doctor writing prescription"`.
 
 ### C. Panduan Prompt Pembuatan Gambar Custom (AI Image Generation)
-Jika ingin membuat gambar ilustrasi latar belakang atau *placeholder* menggunakan AI, gunakan pola prompt berikut:
-> *"Minimalist dark tech background, deep dark blue and slate gray colors, clean abstract geometric lines, subtle neon cyan accents, 16:9 aspect ratio, cinematic lighting, professional studio presentation look --no realistic people"*
+
+Untuk menjaga konsistensi visual di seluruh video, gunakan **Gaya Fotorealistik Sinematik (Realistic Cinematic Photo)** dengan panduan berikut:
+
+*   **Pola Dasar Prompt (Master Template)**:
+    > *`[Aktor/Subjek utama] [aktivitas/tindakan] inside a [lokasi/latar klinik], showing [detail teknologi/layar]. Realistic human features, Javanese ethnicity, detailed professional photography, cinematic lighting, shallow depth of field, 16:9 aspect ratio`*
+*   **Contoh Implementasi**:
+    *   *Bagian Riset/Tugas Akhir*: `A professional cinematic photo of a young Javanese male college student focused on coding on a laptop at a cozy desk late at night. Desk features a warm desk lamp, a coffee mug, stack of academic textbooks, and a binder. Realistic human features, candid expression, shallow depth of field, warm cozy lighting, highly detailed, 16:9 aspect ratio`
+    *   *Bagian Transisi Ekspansi*: `A professional realistic photo of a confident Javanese doctor in a white lab coat standing inside a bright, newly expanded modern clinic hallway. In the background, there are clean clinic rooms and modern registration counter. Natural lighting, crisp details, professional medical environment, 16:9 aspect ratio`
+    *   *Bagian Demo Medis/Apotek*: `A realistic candid photo of a female Javanese clinic receptionist and a doctor using a laptop to manage patient queues at a modern front desk. The screen displays clean medical data and graphs. Bright and neat clinic interior, warm natural lighting, professional and friendly atmosphere, 16:9 aspect ratio`
 
 ---
 
