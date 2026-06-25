@@ -32,7 +32,7 @@
   * **[Insert Ilustrasi 2: klinik_expansion.png]** ketika voiceover menceritakan rencana ekspansi dari praktik dokter menjadi klinik.
   * **[Insert Ilustrasi 3: implementasi_nyata.png]** ketika voiceover menjelaskan bahwa sistem telah resmi diimplementasikan.
 * **Audio (Voiceover):**
-  * *"Project yang kamu lihat di layar ini awalnya saya kembangkan untuk penelitian tugas akhir kuliah saya. Saat itu, atasan di tempat saya bekerja memiliki keinginan untuk mengekspansi tempat praktik dokternya menjadi sebuah klinik. Beliau meminta dibuatkan sistem untuk menunjang operasional klinik tersebut, yang sekaligus bisa dipakai di praktik dokternya saat ini. Hasilnya, sekarang sistem manajemen klinik terintegrasi ini sudah resmi diimplementasikan selama operasional. Jadi di video kali ini, saya mau share gimana alur kerja dan modul-modul penting yang ada di sistem ini."*
+  * *"Saya membuat sistem manajemen klinik saat bekerja di sebuah perusahaan yang bergerak di bidang kesehatan. Pemilik perusahaan memiliki keinginan untuk mengekspansi tempat praktik dokternya dengan sebuah klinik. Beliau ingin memulainya dengan pembuatan aplikasi sistem manajemen untuk praktik dokternya, yang kemudian juga akan digunakan di kliniknya nanti.  Setelah 2 bulan pengerjaan, sekarang sistem manajemen klinik terintegrasi ini sudah resmi diimplementasikan selama operasional. Jadi di video kali ini, saya mau share gimana alur kerja dan modul-modul penting yang ada di sistem ini."*
 * **Catatan Teknis:**
   * Musik latar (*Background Music*): Musik santai, lo-fi beats, atau musik bernada tekno-minimalis.
   * Tampilkan teks besar di layar: **Tugas Akhir Berujung Klien Nyata**.
